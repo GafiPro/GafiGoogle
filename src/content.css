@@ -1,56 +1,238 @@
+:root{
+  --gg-google-blue:#4285f4;
+  --gg-google-red:#ea4335;
+  --gg-google-yellow:#fbbc05;
+  --gg-google-green:#34a853;
+  --gg-origin-x:50vw;
+  --gg-origin-y:50vh;
+}
+
 :root.gg-page-ready body{
   opacity:0;
-  transform:translateY(4px);
+  transform:translateY(4px) scale(.997);
+  transform-origin:var(--gg-origin-x) var(--gg-origin-y);
 }
 
 :root.gg-page-visible body{
   opacity:1;
-  transform:translateY(0);
+  transform:translateY(0) scale(1);
   transition:
-    opacity .32s cubic-bezier(.2,.7,.2,1),
-    transform .32s cubic-bezier(.2,.7,.2,1);
+    opacity .38s cubic-bezier(.2,.75,.2,1),
+    transform .45s cubic-bezier(.2,.85,.2,1);
 }
 
 :root.gg-navigating body{
-  opacity:.72;
-  transform:translateY(-2px);
+  opacity:.82;
+  transform:translateY(-3px) scale(.9985);
   transition:
-    opacity .14s ease,
-    transform .14s ease;
+    opacity .16s ease,
+    transform .18s cubic-bezier(.2,.75,.2,1);
 }
 
+/* Google-coloured loading line: visually on top, no layout changes. */
+.gg-loading-bar{
+  position:fixed;
+  z-index:2147483647;
+  top:0;
+  left:0;
+  width:100%;
+  height:3px;
+  pointer-events:none;
+  opacity:0;
+  overflow:hidden;
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:opacity .18s ease,transform .2s ease;
+}
+
+.gg-loading .gg-loading-bar{
+  opacity:1;
+  transform:scaleX(1);
+}
+
+.gg-loading-track{
+  position:absolute;
+  inset:0;
+  display:block;
+  filter:drop-shadow(0 0 6px rgba(66,133,244,.3));
+}
+
+.gg-loading-track i{
+  position:absolute;
+  top:0;
+  height:100%;
+  width:30%;
+  display:block;
+  transform:translateX(-120%);
+  animation:gg-bar-run 1.08s cubic-bezier(.22,.75,.22,1) infinite;
+}
+
+.gg-loading-track i:nth-child(1){
+  left:0;
+  background:var(--gg-google-blue);
+  animation-delay:0s;
+}
+.gg-loading-track i:nth-child(2){
+  left:25%;
+  background:var(--gg-google-red);
+  animation-delay:.08s;
+}
+.gg-loading-track i:nth-child(3){
+  left:50%;
+  background:var(--gg-google-yellow);
+  animation-delay:.16s;
+}
+.gg-loading-track i:nth-child(4){
+  left:75%;
+  background:var(--gg-google-green);
+  animation-delay:.24s;
+}
+
+.gg-loading-done .gg-loading-bar{
+  opacity:0;
+  transform:scaleX(1);
+  transition:opacity .28s ease .04s;
+}
+
+@keyframes gg-bar-run{
+  0%{transform:translateX(-125%)}
+  55%,100%{transform:translateX(340%)}
+}
+
+.gg-pagehide{
+  animation:gg-pagehide .16s ease forwards;
+}
+
+@keyframes gg-pagehide{
+  to{opacity:0}
+}
+
+/* Results keep their original geometry; only the way they arrive changes. */
 .gg-result{
-  animation:gg-result-enter .34s cubic-bezier(.2,.8,.2,1) both;
-  animation-delay:calc(min(var(--gg-result-index, 0), 10) * 24ms);
+  opacity:0;
+  animation:gg-result-enter .5s cubic-bezier(.2,.82,.2,1) both;
+  animation-delay:calc(min(var(--gg-result-index,0),12) * 34ms);
+}
+
+@keyframes gg-result-enter{
+  0%{
+    opacity:0;
+    transform:translate3d(0,13px,0) scale(.992);
+    filter:blur(5px);
+  }
+  55%{
+    opacity:1;
+    transform:translate3d(0,-1px,0) scale(1.001);
+    filter:blur(.4px);
+  }
+  100%{
+    opacity:1;
+    transform:translate3d(0,0,0) scale(1);
+    filter:blur(0);
+  }
 }
 
 .gg-result:hover{
   transition:
-    transform .16s ease,
-    filter .16s ease;
+    transform .22s cubic-bezier(.2,.8,.2,1),
+    filter .22s ease;
   transform:translateY(-1px);
-  filter:saturate(1.01);
+  filter:saturate(1.015);
 }
 
-@keyframes gg-result-enter{
-  from{
+.gg-result-image{
+  transition:
+    transform .28s cubic-bezier(.2,.8,.2,1),
+    filter .28s ease;
+}
+
+.gg-result:hover .gg-result-image{
+  transform:scale(1.025);
+  filter:saturate(1.02);
+}
+
+/* Existing search box gets a tiny focus pulse rather than a new design. */
+.gg-search-focus{
+  animation:gg-search-focus .42s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes gg-search-focus{
+  0%{filter:brightness(1)}
+  45%{filter:brightness(1.025)}
+  100%{filter:brightness(1)}
+}
+
+/* A transient interaction effect only; it disappears immediately. */
+.gg-click-wave{
+  position:fixed;
+  z-index:2147483646;
+  left:0;
+  top:0;
+  width:9px;
+  height:9px;
+  border-radius:999px;
+  pointer-events:none;
+  transform:translate(-50%,-50%) scale(1);
+  border:1px solid rgba(66,133,244,.3);
+  box-shadow:
+    0 0 0 1px rgba(234,67,53,.08),
+    0 0 18px rgba(66,133,244,.16);
+  animation:gg-click-wave .64s cubic-bezier(.16,.75,.24,1) forwards;
+}
+
+@keyframes gg-click-wave{
+  0%{
+    opacity:.72;
+    width:9px;
+    height:9px;
+  }
+  45%{
+    opacity:.38;
+  }
+  100%{
     opacity:0;
-    transform:translateY(7px);
+    width:96px;
+    height:96px;
+    border-color:rgba(52,168,83,0);
+    box-shadow:0 0 0 0 rgba(66,133,244,0);
   }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+}
+
+:root.gg-searching body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:2147483645;
+  pointer-events:none;
+  opacity:0;
+  background:
+    radial-gradient(circle at var(--gg-origin-x) var(--gg-origin-y),
+      rgba(66,133,244,.11),
+      rgba(66,133,244,.04) 11%,
+      transparent 27%);
+  animation:gg-search-bloom .5s ease-out forwards;
+}
+
+@keyframes gg-search-bloom{
+  0%{opacity:0;transform:scale(.65)}
+  35%{opacity:.8}
+  100%{opacity:0;transform:scale(1.12)}
 }
 
 @media(prefers-reduced-motion:reduce){
   .gg-result,
   :root.gg-page-ready body,
   :root.gg-page-visible body,
-  :root.gg-navigating body{
+  :root.gg-navigating body,
+  .gg-search-focus,
+  .gg-click-wave,
+  :root.gg-searching body::after,
+  .gg-loading-bar,
+  .gg-loading-track i{
     animation:none!important;
     transition:none!important;
     transform:none!important;
+    filter:none!important;
     opacity:1!important;
   }
 }
