@@ -1,20 +1,56 @@
-:root{--gg-accent:#7c8cff;--gg-accent-rgb:124,140,255;--gg-glass-bg:rgba(255,255,255,.42);--gg-shadow:0 10px 36px rgba(30,35,55,.09)}
-@media(prefers-color-scheme:dark){:root{--gg-glass-bg:rgba(35,35,42,.45);--gg-shadow:0 10px 36px rgba(0,0,0,.22)}}
-html[data-gg-profile="gaming"]{--gg-accent:#50bfff;--gg-accent-rgb:80,191,255}
-html[data-gg-profile="rgb"]{--gg-accent:#b97cff;--gg-accent-rgb:185,124,255}
-#gg-loading-bar{position:fixed;z-index:2147483646;top:0;left:0;width:0;height:2px;pointer-events:none;opacity:0;background:linear-gradient(90deg,#4285f4,#34a853,#fbbc05,#ea4335,#4285f4);background-size:220% 100%;box-shadow:0 0 12px rgba(var(--gg-accent-rgb),.35)}
-#gg-loading-bar.gg-loading-active{opacity:1;width:100%;animation:gg-loading .7s cubic-bezier(.2,.8,.2,1),gg-gradient 1.2s linear infinite}
-@keyframes gg-loading{from{transform:scaleX(.1);transform-origin:left}to{transform:scaleX(1);transform-origin:left}}@keyframes gg-gradient{to{background-position:220% 0}}
-html.gg-page-intro-ready body{opacity:0;transform:translateY(5px)}html.gg-page-intro-visible body{opacity:1;transform:translateY(0);transition:opacity .42s cubic-bezier(.2,.75,.2,1),transform .42s cubic-bezier(.2,.75,.2,1)}html.gg-leaving body{opacity:.72;transform:translateY(-3px);transition:opacity .14s ease,transform .14s ease}
-html[data-gg-result-hover="on"] .gg-result{transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}html[data-gg-result-hover="on"] .gg-result:hover{transform:translateY(-2px);filter:saturate(1.015)}
-html[data-gg-glass="on"] #search .gg-result{border-radius:16px}html[data-gg-glass="on"] #search .gg-result:hover{background:var(--gg-glass-bg);box-shadow:var(--gg-shadow);backdrop-filter:blur(12px) saturate(1.06);-webkit-backdrop-filter:blur(12px) saturate(1.06)}
-html[data-gg-result-stagger="on"] .gg-result{animation:gg-result-in .38s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(min(var(--gg-result-index,0),12)*28ms)}@keyframes gg-result-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-html[data-gg-reveal="on"] .gg-result:not(.gg-visible){opacity:0;transform:translateY(10px)}html[data-gg-reveal="on"] .gg-result.gg-visible{opacity:1;transform:translateY(0);transition:opacity .38s ease,transform .38s cubic-bezier(.2,.8,.2,1)}
-html[data-gg-search-bar="on"] .gg-search-shell{transition:transform .18s ease,filter .18s ease}html[data-gg-search-bar="on"] .gg-search-shell:focus-within{transform:translateY(-1px) scale(1.006);filter:drop-shadow(0 8px 22px rgba(var(--gg-accent-rgb),.12))}html[data-gg-search-bar="on"] .gg-search-input{transition:letter-spacing .16s ease}html[data-gg-search-bar="on"] .gg-search-input:focus{letter-spacing:.005em}
-html[data-gg-logo="on"] .gg-logo{transform-origin:center;transition:transform .22s cubic-bezier(.2,.8,.2,1),filter .22s ease}html[data-gg-logo="on"] .gg-logo:hover{transform:translateY(-1px) scale(1.015);filter:drop-shadow(0 7px 14px rgba(var(--gg-accent-rgb),.16))}
-html[data-gg-micro="on"] button,html[data-gg-micro="on"] [role="button"],html[data-gg-micro="on"] a{transition:transform .16s ease,filter .16s ease,opacity .16s ease}html[data-gg-micro="on"] button:hover,html[data-gg-micro="on"] [role="button"]:hover{transform:translateY(-1px)}html[data-gg-micro="on"] button:active,html[data-gg-micro="on"] [role="button"]:active,html[data-gg-micro="on"] a:active{transform:translateY(0) scale(.985)}
-.gg-ripple-host{position:relative!important;overflow:hidden!important}.gg-ripple{position:absolute;width:8px;height:8px;border-radius:999px;pointer-events:none;background:rgba(var(--gg-accent-rgb),.18);transform:translate(-50%,-50%) scale(1);animation:gg-ripple .48s ease-out forwards}@keyframes gg-ripple{from{opacity:.65;transform:translate(-50%,-50%) scale(1)}to{opacity:0;transform:translate(-50%,-50%) scale(24)}}
-#gg-cursor-glow{position:fixed;z-index:2147483642;width:36px;height:36px;top:0;left:0;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(var(--gg-accent-rgb),.16),rgba(var(--gg-accent-rgb),.06) 38%,transparent 72%);filter:blur(1px);mix-blend-mode:multiply;opacity:.55}
-html[data-gg-rgb="on"]::before{content:"";position:fixed;z-index:2147483640;inset:0;pointer-events:none;opacity:.06;background:linear-gradient(120deg,#ff4d6d,#ffb703,#4cd97b,#4da3ff,#b75dff,#ff4d6d);background-size:300% 300%;animation:gg-rgb 14s linear infinite}@keyframes gg-rgb{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
-#gg-particles{position:fixed;inset:0;z-index:2147483641;pointer-events:none;overflow:hidden}.gg-particle{position:absolute;left:var(--gg-p-left);top:var(--gg-p-top);width:3px;height:3px;border-radius:50%;background:rgba(var(--gg-accent-rgb),.22);box-shadow:0 0 10px rgba(var(--gg-accent-rgb),.12);animation:gg-float var(--gg-p-duration) ease-in-out var(--gg-p-delay) infinite}@keyframes gg-float{0%,100%{transform:translate3d(0,0,0);opacity:0}25%{opacity:.7}50%{transform:translate3d(10px,-16px,0);opacity:.45}75%{opacity:.65}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+:root.gg-page-ready body{
+  opacity:0;
+  transform:translateY(4px);
+}
+
+:root.gg-page-visible body{
+  opacity:1;
+  transform:translateY(0);
+  transition:
+    opacity .32s cubic-bezier(.2,.7,.2,1),
+    transform .32s cubic-bezier(.2,.7,.2,1);
+}
+
+:root.gg-navigating body{
+  opacity:.72;
+  transform:translateY(-2px);
+  transition:
+    opacity .14s ease,
+    transform .14s ease;
+}
+
+.gg-result{
+  animation:gg-result-enter .34s cubic-bezier(.2,.8,.2,1) both;
+  animation-delay:calc(min(var(--gg-result-index, 0), 10) * 24ms);
+}
+
+.gg-result:hover{
+  transition:
+    transform .16s ease,
+    filter .16s ease;
+  transform:translateY(-1px);
+  filter:saturate(1.01);
+}
+
+@keyframes gg-result-enter{
+  from{
+    opacity:0;
+    transform:translateY(7px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .gg-result,
+  :root.gg-page-ready body,
+  :root.gg-page-visible body,
+  :root.gg-navigating body{
+    animation:none!important;
+    transition:none!important;
+    transform:none!important;
+    opacity:1!important;
+  }
+}
