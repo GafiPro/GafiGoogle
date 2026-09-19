@@ -43,6 +43,7 @@
   let cursorX = 0;
   let cursorY = 0;
   let cursorFrame = 0;
+  let cursorListenerInstalled = false;
   let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const storage = chrome.storage?.sync ?? chrome.storage?.local;
@@ -182,19 +183,23 @@
       cursorFrame = requestAnimationFrame(tick);
     };
 
-    window.addEventListener('pointermove', (event) => {
-      cursorTargetX = event.clientX;
-      cursorTargetY = event.clientY;
-    }, { passive: true });
+    if (!cursorListenerInstalled) {
+      window.addEventListener('pointermove', (event) => {
+        cursorTargetX = event.clientX;
+        cursorTargetY = event.clientY;
+      }, { passive: true });
+      cursorListenerInstalled = true;
+    }
 
     cancelAnimationFrame(cursorFrame);
     cursorFrame = requestAnimationFrame(tick);
   }
 
   function setupRipple() {
-    if (!settings.clickRipple) return;
+    if (document.documentElement.dataset.ggRippleListener === 'on') return;
+    document.documentElement.dataset.ggRippleListener = 'on';
     document.addEventListener('pointerdown', (event) => {
-      if (reducedMotion) return;
+      if (!settings.clickRipple || reducedMotion) return;
       const target = event.target instanceof Element ? event.target.closest('a, button, [role="button"], input[type="submit"]') : null;
       if (!(target instanceof HTMLElement)) return;
       if (target.closest('#gg-cursor-glow, #gg-particles')) return;
@@ -211,14 +216,15 @@
   }
 
   function setupNavigationTransitions() {
-    if (!settings.navigationTransitions || reducedMotion) return;
+    if (document.documentElement.dataset.ggNavigationListener === 'on') return;
+    document.documentElement.dataset.ggNavigationListener = 'on';
 
     const start = () => {
       document.documentElement.classList.add('gg-leaving');
     };
 
     document.addEventListener('click', (event) => {
-      if (event.defaultPrevented || event.button !== 0) return;
+      if (!settings.navigationTransitions || reducedMotion || event.defaultPrevented || event.button !== 0) return;
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null;
       if (!(anchor instanceof HTMLAnchorElement)) return;
@@ -228,11 +234,13 @@
       start();
     }, true);
 
-    document.addEventListener('submit', () => start(), true);
+    document.addEventListener('submit', () => {
+      if (settings.navigationTransitions && !reducedMotion) start();
+    }, true);
   }
 
   function setupLoadingBar() {
-    if (!settings.loading || reducedMotion) return;
+    if (document.getElementById('gg-loading-bar')) return;
 
     const bar = document.createElement('div');
     bar.id = 'gg-loading-bar';
@@ -242,7 +250,7 @@
     window.addEventListener('pageshow', () => bar.classList.remove('gg-loading-active'), { passive: true });
 
     const observerLocal = new MutationObserver(() => {
-      if (document.documentElement.classList.contains('gg-leaving')) {
+      if (settings.loading && !reducedMotion && document.documentElement.classList.contains('gg-leaving')) {
         bar.classList.add('gg-loading-active');
       }
     });
