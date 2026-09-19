@@ -1,23 +1,8 @@
 {
   "manifest_version": 3,
   "name": "GafiGoogle",
-  "version": "1.0.0",
-  "description": "Uma camada visual clean e smooth para o Google, com animações e pequenos detalhes de interface.",
-  "permissions": ["storage"],
-  "host_permissions": [
-    "https://www.google.com/*",
-    "https://www.google.pt/*",
-    "https://www.google.co.uk/*",
-    "https://www.google.es/*",
-    "https://www.google.fr/*",
-    "https://www.google.de/*",
-    "https://www.google.it/*",
-    "https://www.google.ca/*",
-    "https://www.google.com.br/*",
-    "https://www.google.com.au/*",
-    "https://www.google.co.in/*",
-    "https://www.google.co.jp/*"
-  ],
+  "version": "1.1.0",
+  "description": "Animações suaves e discretas para a interface normal do Google.",
   "content_scripts": [
     {
       "matches": [
@@ -38,12 +23,5 @@
       "js": ["src/content.js"],
       "run_at": "document_start"
     }
-  ],
-  "action": {
-    "default_title": "GafiGoogle",
-    "default_popup": "popup.html"
-  },
-  "chrome_url_overrides": {
-    "newtab": "newtab.html"
-  }
+  ]
 }
